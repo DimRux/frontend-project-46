@@ -23,12 +23,15 @@ const fileFormat = (data, format) => {
 
 const genDiff = (filepath1, filepath2) => {
   const extName1 = extName(filepath1);
+  console.log(extName1);
   const extName2 = extName(filepath2);
 
   const readFile1 = readFile(filepath1);
+  console.log(readFile1);
   const readFile2 = readFile(filepath2);
 
   const file1 = fileFormat(readFile1, extName1);
+  console.log(file1);
   const file2 = fileFormat(readFile2, extName2);
 
   const key1 = Object.keys(file1);
@@ -53,4 +56,9 @@ const genDiff = (filepath1, filepath2) => {
   return `{\n${result}}`;
 };
 
-export default genDiff;
+export {
+  readFile,
+  extName,
+  fileFormat,
+  genDiff,
+};

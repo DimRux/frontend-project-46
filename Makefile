@@ -1,5 +1,11 @@
 install:
 	npm ci
 
-gendiff:
-	node/gendiff.js
+test:
+	npm test
+
+test-coverage:
+	npm test -- --coverage 
+
+lint:
+	npx eslint
