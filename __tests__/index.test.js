@@ -1,7 +1,7 @@
-import { genDiff} from '../src/index.js';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import fs from 'fs';
+import { genDiff } from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,7 +13,6 @@ const file1 = './__fixtures__/file1.json';
 const file2 = './__fixtures__/file2.json';
 
 const genDiffFil1File2 = readFiles('fileOutput.txt');
-
 
 test('readFile', () => {
   expect(genDiff(file1, file2)).toEqual(genDiffFil1File2);
