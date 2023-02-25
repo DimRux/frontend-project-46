@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import parsers from './parsers.js';
 
 const readFile = (paths) => {
   const fullPath = path.resolve(process.cwd(), paths);
@@ -8,18 +9,7 @@ const readFile = (paths) => {
   return data;
 };
 
-const extName = (pies) => {
-  const fullPath = path.resolve(process.cwd(), pies);
-  const parse = path.parse(fullPath);
-  return parse.ext.slice(1);
-};
-
-const fileFormat = (data, format) => {
-  if (format === 'json') {
-    return JSON.parse(data);
-  }
-  return `Unknown format! ${format}`;
-};
+const extName = (pies) => path.extname(pies).slice(1);
 
 const genDiff = (filepath1, filepath2) => {
   const extName1 = extName(filepath1);
@@ -28,8 +18,8 @@ const genDiff = (filepath1, filepath2) => {
   const readFile1 = readFile(filepath1);
   const readFile2 = readFile(filepath2);
 
-  const file1 = fileFormat(readFile1, extName1);
-  const file2 = fileFormat(readFile2, extName2);
+  const file1 = parsers(readFile1, extName1);
+  const file2 = parsers(readFile2, extName2);
 
   const key1 = Object.keys(file1);
   const key2 = Object.keys(file2);
@@ -56,6 +46,5 @@ const genDiff = (filepath1, filepath2) => {
 export {
   readFile,
   extName,
-  fileFormat,
   genDiff,
 };

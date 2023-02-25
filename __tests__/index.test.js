@@ -11,9 +11,13 @@ const readFiles = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8
 
 const file1 = './__fixtures__/file1.json';
 const file2 = './__fixtures__/file2.json';
+const file3 = './__fixtures__/file1.yaml';
+const file4 = './__fixtures__/file2.yml';
 
 const genDiffFil1File2 = readFiles('fileOutput.txt');
+const genDiffFil3File4 = readFiles('fileOutput.txt');
 
 test('readFile', () => {
   expect(genDiff(file1, file2)).toEqual(genDiffFil1File2);
+  expect(genDiff(file3, file4)).toEqual(genDiffFil3File4);
 });
