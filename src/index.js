@@ -12,25 +12,46 @@ const readFile = (paths) => {
 
 const extName = (pies) => path.extname(pies).slice(1);
 
+const stringify = (value, nowReplacer = '  ', nowDepth = 1) => {
+  if (!_.isObject(value)) {
+    return ` ${value}`;
+  }
+  const iter = (obj, depth) => {
+    const keys = Object.keys(obj).sort();
+    return keys.reduce((acc, el) => {
+      let str;
+      if (_.isObject(obj[el])) {
+        str = `${nowReplacer.repeat(depth + 3)}${el}: {${iter(obj[el], depth + 2)}\n${nowReplacer.repeat(depth + 3)}}`;
+      } else {
+        str = `${nowReplacer.repeat(depth + 3)}${el}: ${obj[el]}`;
+      }
+      return `${acc}\n${str}`;
+    }, '');
+  };
+  return ` {${iter(value, nowDepth)}\n${nowReplacer.repeat(nowDepth + 1)}}`;
+};
+
 const formater = (tree, replacer = '  ', spacesCount = 1) => {
   const iter = (node, depth) => node.reduce((acc, el) => {
     let str;
-    if (_.has(el, 'children')) {
-      str = `${replacer.repeat(depth)}  ${el.keyName}: {${iter(el.children, depth + 1)}\n${replacer.repeat(depth)}}`;
-    } else {
-      if (el.status === 'equals') {
-        str = `${replacer.repeat(depth)} ${el.keyName}:  ${el.value}`;
-      }
-      if (el.status === 'minus') {
-        str = `${replacer.repeat(depth)}-${el.keyName}:  ${el.value}`;
-      }
-      if (el.status === 'plus') {
-        str = `${replacer.repeat(depth)}+${el.keyName}:  ${el.value}`;
-      }
+    if (el.status === 'notChanged') {
+      str = `${replacer.repeat(depth)}- ${el.keyName}:${stringify(el.value1, replacer, depth)}\n${replacer.repeat(depth)}+ ${el.keyName}:${stringify(el.value2, replacer, depth)}`;
+    }
+    if (el.status === 'nested') {
+      str = `${replacer.repeat(depth)}  ${el.keyName}: {${iter(el.children, depth + 2)}\n${replacer.repeat(depth)}  }`;
+    }
+    if (el.status === 'equals') {
+      str = `${replacer.repeat(depth)}  ${el.keyName}:${stringify(el.value, replacer, depth)}`;
+    }
+    if (el.status === 'minus') {
+      str = `${replacer.repeat(depth)}- ${el.keyName}:${stringify(el.value, replacer, depth)}`;
+    }
+    if (el.status === 'plus') {
+      str = `${replacer.repeat(depth)}+ ${el.keyName}:${stringify(el.value, replacer, depth)}`;
     }
     return `${acc}\n${str}`;
   }, '');
-  return iter(tree, spacesCount);
+  return `{${iter(tree, spacesCount)}\n}`;
 };
 
 const genDiff = (filepath1, filepath2) => {
