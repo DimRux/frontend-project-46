@@ -19,7 +19,7 @@ const buildTree = (data1, data2) => {
         keyName: el,
         value1: data1[el],
         value2: data2[el],
-        status: 'notChanged',
+        status: 'changed',
       };
     }
     return { keyName: el, value: data1[el], status: 'equals' };
