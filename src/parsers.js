@@ -7,6 +7,6 @@ const fileFormat = (data, format) => {
   if (format === 'yaml' || format === 'yml') {
     return yaml.load(data);
   }
-  return `Unknown format! ${format}`;
+  throw new Error(`Unknown format! ${format}`);
 };
 export default fileFormat;
