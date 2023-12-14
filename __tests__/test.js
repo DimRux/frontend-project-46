@@ -7,7 +7,7 @@ import parsers from '../src/parsers.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (filename) => path.join(__dirname, '../__fixtures__/', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '/__fixtures__/', filename);
 const readFiles = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 const file1 = './__fixtures__/file1.json';
@@ -17,6 +17,7 @@ const file4 = './__fixtures__/file2.yml';
 
 const genDiffFil1File3 = readFiles('stylishFileOutput.txt');
 const genDiffFil2File4 = readFiles('plainFileOutput.txt');
+const genDiffFil1File4 = readFiles('jsonFileOutput.txt');
 
 test('parsers Error', () => {
   expect(() => {
@@ -30,4 +31,8 @@ test('stylish format', () => {
 
 test('plain format', () => {
   expect(genDiff(file3, file4, 'plain')).toEqual(genDiffFil2File4);
+});
+
+test('json format', () => {
+  expect(genDiff(file1, file4, 'json')).toEqual(genDiffFil1File4);
 });
