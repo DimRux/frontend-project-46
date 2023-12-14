@@ -26,8 +26,4 @@ const genDiff = (filepath1, filepath2, format) => {
   return formatters(format)(tree);
 };
 
-export {
-  readFile,
-  extName,
-  genDiff,
-};
+export default genDiff;
