@@ -20,6 +20,10 @@
 <p>git clone https://github.com/DimRux/frontend-project-46.git</p>
 <p>make install</p> 
 
+<h2>How it works:</h2>
+<p>The program defines a difference between structures of two files. Accepted extentions for input are yaml and json. Output formats are plain, JSON and stylish as default. For help type:</p>
+<p>gendiff -h</p>
+
 <h2>Example:</h2>
 <h2>Stylish:</h2>
 <a href="https://asciinema.org/a/vUufFE7QsN5zcVbwYKySjfO3Q" target="_blank"><img src="https://asciinema.org/a/vUufFE7QsN5zcVbwYKySjfO3Q.svg" /></a>

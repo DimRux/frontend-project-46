@@ -3,6 +3,7 @@ import path, { dirname } from 'path';
 import fs from 'fs';
 import genDiff from '../src/index.js';
 import parsers from '../src/parsers.js';
+import formatters from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -18,6 +19,12 @@ const file4 = './__fixtures__/file2.yml';
 const genDiffFil1File3 = readFiles('stylishFileOutput.txt');
 const genDiffFil2File4 = readFiles('plainFileOutput.txt');
 const genDiffFil1File4 = readFiles('jsonFileOutput.txt');
+
+test('formatters Error', () => {
+  expect(() => {
+    formatters('XML');
+  }).toThrow();
+});
 
 test('parsers Error', () => {
   expect(() => {

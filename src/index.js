@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
 import buildTree from './buildTree.js';
-import formatters from '../formatters/formatters.index.js';
+import formatName from './formatters/index.js';
 
 const readFile = (paths) => {
   const fullPath = path.resolve(process.cwd(), paths);
@@ -10,20 +10,20 @@ const readFile = (paths) => {
   return data;
 };
 
-const extName = (pies) => path.extname(pies).slice(1);
+const fileExtension = (pathName) => path.extname(pathName).slice(1);
 
-const genDiff = (filepath1, filepath2, format) => {
-  const extName1 = extName(filepath1);
-  const extName2 = extName(filepath2);
+const genDiff = (pathToFile1, pathToFile2, format) => {
+  const extName1 = fileExtension(pathToFile1);
+  const extName2 = fileExtension(pathToFile2);
 
-  const readFile1 = readFile(filepath1);
-  const readFile2 = readFile(filepath2);
+  const readFile1 = readFile(pathToFile1);
+  const readFile2 = readFile(pathToFile2);
 
-  const file1 = parsers(readFile1, extName1);
-  const file2 = parsers(readFile2, extName2);
+  const contentsOfFile1 = parsers(readFile1, extName1);
+  const contentsOfFile2 = parsers(readFile2, extName2);
 
-  const tree = buildTree(file1, file2);
-  return formatters(format)(tree);
+  const tree = buildTree(contentsOfFile1, contentsOfFile2);
+  return formatName(format, tree);
 };
 
 export default genDiff;

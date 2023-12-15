@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/DimRux/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/DimRux/frontend-project-46/actions)",
+  "description": "A difference calculator is a program that determines the difference between two data structures.",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },

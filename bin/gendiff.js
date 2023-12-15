@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
+import { program } from 'commander';
 import genDiff from '../src/index.js';
-
-const program = new Command();
 
 program
   .description('Compares two configuration files and shows a difference.')
@@ -12,8 +10,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2, options) => {
     const formatName = options.format;
-    const diff = genDiff(filepath1, filepath2, formatName);
-    console.log(diff);
+    console.log(genDiff(filepath1, filepath2, formatName));
   });
 
 program.parse();

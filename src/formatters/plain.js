@@ -4,13 +4,13 @@ const getValue = (value) => {
   if (_.isObject(value)) {
     return '[complex value]';
   }
-  if (typeof (value) === 'string') {
+  if (typeof value === 'string') {
     return `'${value}'`;
   }
-  return value;
+  return `${value}`;
 };
 
-const fullPath = (path, pies) => (path ? `${path}.${pies}` : `${pies}`);
+const fullPath = (path, partOfPath) => (path ? `${path}.${partOfPath}` : `${partOfPath}`);
 
 const plain = (tree) => {
   const iter = (node, path) => {
