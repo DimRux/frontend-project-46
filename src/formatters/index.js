@@ -7,9 +7,9 @@ export default (formatName, tree) => {
     throw new Error(`Unknown formatName! ${formatName}`);
   }
   const correctsFormats = {
-    plain: plain(tree),
-    json: json(tree),
-    stylish: stylish(tree),
+    plain: (node) => plain(node),
+    json: (node) => json(node),
+    stylish: (node) => stylish(node),
   };
-  return correctsFormats[formatName];
+  return correctsFormats[formatName](tree);
 };

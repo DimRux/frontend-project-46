@@ -1,9 +1,31 @@
 import _ from 'lodash';
 
+const hasArrays = (arr) => {
+  const getArrayElements = arr.filter((el) => Array.isArray(el));
+  if (getArrayElements.length === 0) {
+    return false;
+  }
+  return true;
+};
+
+const convertArrInStr = (value) => value.map((el) => {
+  if (Array.isArray(el)) {
+    return `[${convertArrInStr(el)}]`;
+  }
+  if (el === value.at(-1) || hasArrays(value)) {
+    return `${el}`;
+  }
+  const newEl = `${el} `;
+  return `${newEl}`;
+});
+
 const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1) => {
   const iter = (value, depth) => {
     if (!_.isObject(value)) {
       return `${value}`;
+    }
+    if (Array.isArray(value)) {
+      return `[${convertArrInStr(value).join(', ')}]`;
     }
     const indentSize = nowDepth + depth * spacesCount;
     const currentIndent = replacer.repeat(indentSize + 1);

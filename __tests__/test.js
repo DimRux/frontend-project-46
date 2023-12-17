@@ -15,10 +15,13 @@ const file1 = './__fixtures__/file1.json';
 const file2 = './__fixtures__/file2.json';
 const file3 = './__fixtures__/file1.yaml';
 const file4 = './__fixtures__/file2.yml';
+const file5 = './__fixtures__/file3.json';
+const file6 = './__fixtures__/file4.yml';
 
 const genDiffFil1File3 = readFiles('stylishFileOutput.txt');
 const genDiffFil2File4 = readFiles('plainFileOutput.txt');
 const genDiffFil1File4 = readFiles('jsonFileOutput.txt');
+const genDiffFil5File6 = readFiles('stylishOnArrayFileOutput.txt');
 
 test('formatters Error', () => {
   expect(() => {
@@ -30,6 +33,10 @@ test('parsers Error', () => {
   expect(() => {
     parsers(readFiles('file1.json').toString(), 'XML');
   }).toThrow();
+});
+
+test('сhecking on arrays', () => {
+  expect(genDiff(file5, file6, 'stylish')).toEqual(genDiffFil5File6);
 });
 
 test('stylish format', () => {

@@ -5,10 +5,10 @@ const fileFormat = (data, format) => {
     throw new Error(`Unknown format! ${format}`);
   }
   const correctsFormats = {
-    json: JSON.parse(data),
-    yaml: yaml.load(data),
-    yml: yaml.load(data),
+    json: (file) => JSON.parse(file),
+    yaml: (file) => yaml.load(file),
+    yml: (file) => yaml.load(file),
   };
-  return correctsFormats[format];
+  return correctsFormats[format](data);
 };
 export default fileFormat;
