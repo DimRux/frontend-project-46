@@ -2,7 +2,7 @@ import plain from './plain.js';
 import stylish from './stylish.js';
 import json from './json.js';
 
-export default (formatName, tree) => {
+export default (formatName = 'stylish', tree) => {
   if (formatName !== 'stylish' && formatName !== 'json' && formatName !== 'plain') {
     throw new Error(`Unknown formatName! ${formatName}`);
   }
