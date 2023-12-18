@@ -17,15 +17,19 @@ const file3 = './__fixtures__/file1.yaml';
 const file4 = './__fixtures__/file2.yml';
 const file5 = './__fixtures__/file3.json';
 const file6 = './__fixtures__/file4.yml';
+const file7 = './__fixtures__/file5.json';
+const file8 = './__fixtures__/file6.json';
 
 const genDiffFil1File3 = readFiles('stylishFileOutput.txt');
 const genDiffFil2File4 = readFiles('plainFileOutput.txt');
 const genDiffFil1File4 = readFiles('jsonFileOutput.txt');
 const genDiffFil5File6 = readFiles('stylishOnArrayFileOutput.txt');
+const genDiffFil7File8 = readFiles('stylishEmptyFileOutput.txt');
+const genDiffFil7File8JSON = readFiles('jsonEmptyFileOutput.txt');
 
 test('formatters Error', () => {
   expect(() => {
-    formatters('XML');
+    formatters([], 'XML');
   }).toThrow();
 });
 
@@ -41,6 +45,7 @@ test('сhecking on arrays', () => {
 
 test('stylish format', () => {
   expect(genDiff(file1, file2, 'stylish')).toEqual(genDiffFil1File3);
+  expect(genDiff(file7, file8, 'stylish')).toEqual(genDiffFil7File8);
 });
 
 test('plain format', () => {
@@ -49,4 +54,5 @@ test('plain format', () => {
 
 test('json format', () => {
   expect(genDiff(file1, file4, 'json')).toEqual(genDiffFil1File4);
+  expect(genDiff(file7, file8, 'json')).toEqual(genDiffFil7File8JSON);
 });
