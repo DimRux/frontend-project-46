@@ -57,6 +57,9 @@ const stylish = (tree, replacer = '  ', spacesCount = 1) => {
       plus: (el) => convertObjInStr(currentIndent, '+', el.keyName, el.value, replacer, depth),
     };
     const lines = node.map((el) => mapping[el.status](el));
+    if (lines.length === 0) {
+      return '{}';
+    }
     return [
       '{',
       ...lines,
