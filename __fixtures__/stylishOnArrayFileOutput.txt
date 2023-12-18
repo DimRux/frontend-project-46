@@ -1,8 +1,8 @@
 {
     common: {
       + follow: false
-      - setting1: [Value 1 , Value 2 , Value3]
-      + setting1: [value1 , value2]
+      - setting1: [Value 1, Value 2, Value3]
+      + setting1: [value1, value2]
       - setting2: 200
       - setting3: true
       + setting3: null
@@ -12,8 +12,8 @@
         }
         setting6: {
             doge: {
-              - wow: [str, arr, [true ,null , ,5], [so much,[Oops]]]
-              + wow: [[true ,null , ,5], [so much,[sss]]]
+              - wow: [str, arr, [true,null,,5], [so much,[Oops]]]
+              + wow: [[true,null,,5], [so much,[sss]]]
             }
             key: value
           + ops: vops

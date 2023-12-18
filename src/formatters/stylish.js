@@ -1,22 +1,10 @@
 import _ from 'lodash';
 
-const hasArrays = (arr) => {
-  const getArrayElements = arr.filter((el) => Array.isArray(el));
-  if (getArrayElements.length === 0) {
-    return false;
-  }
-  return true;
-};
-
 const convertArrInStr = (value) => value.map((el) => {
   if (Array.isArray(el)) {
     return `[${convertArrInStr(el)}]`;
   }
-  if (el === value.at(-1) || hasArrays(value)) {
-    return `${el}`;
-  }
-  const newEl = `${el} `;
-  return `${newEl}`;
+  return `${el}`;
 });
 
 const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1) => {
