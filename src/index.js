@@ -23,7 +23,7 @@ const genDiff = (pathToFile1, pathToFile2, format) => {
   const contentsOfFile2 = parsers(readFile2, extName2);
 
   const tree = buildTree(contentsOfFile1, contentsOfFile2);
-  return formatName(format, tree);
+  return formatName(tree, format);
 };
 
 export default genDiff;
