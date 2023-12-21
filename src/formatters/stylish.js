@@ -1,11 +1,14 @@
 import _ from 'lodash';
 
-const convertArrInStr = (value) => value.map((el) => {
-  if (Array.isArray(el)) {
-    return `[${convertArrInStr(el)}]`;
-  }
-  return `${el}`;
-});
+const convertArrInStr = (value) => {
+  const result = value.map((el) => {
+    if (Array.isArray(el)) {
+      return `[${convertArrInStr(el)}]`;
+    }
+    return `${el}`;
+  });
+  return result.join(', ');
+};
 
 const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1) => {
   const iter = (value, depth) => {
@@ -13,7 +16,7 @@ const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1)
       return `${value}`;
     }
     if (Array.isArray(value)) {
-      return `[${convertArrInStr(value).join(', ')}]`;
+      return `[${convertArrInStr(value)}]`;
     }
     const indentSize = nowDepth + depth * spacesCount;
     const currentIndent = replacer.repeat(indentSize + 1);
@@ -30,19 +33,17 @@ const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1)
   return iter(currentValue, 1);
 };
 
-const convertObjInStr = (indent, apmersand, key, value, replacer, depth) => `${indent}${apmersand} ${key}: ${stringify(value, replacer, depth + 1)}`;
-
 const stylish = (tree, replacer = '  ', spacesCount = 1) => {
   const iter = (node, depth) => {
     const indentSize = depth * spacesCount;
     const currentIndent = replacer.repeat(indentSize);
     const bracketIndent = replacer.repeat(indentSize - spacesCount);
     const mapping = {
-      changed: (el) => `${convertObjInStr(currentIndent, '-', el.keyName, el.value1, replacer, depth)}\n${convertObjInStr(currentIndent, '+', el.keyName, el.value2, replacer, depth)}`,
+      changed: (el) => `${currentIndent}- ${el.keyName}: ${stringify(el.value1, replacer, depth + 1)}\n${currentIndent}+ ${el.keyName}: ${stringify(el.value2, replacer, depth + 1)}`,
       nested: (el) => `${currentIndent}  ${el.keyName}: ${iter(el.children, depth + 2)}`,
-      equals: (el) => convertObjInStr(currentIndent, ' ', el.keyName, el.value, replacer, depth),
-      minus: (el) => convertObjInStr(currentIndent, '-', el.keyName, el.value, replacer, depth),
-      plus: (el) => convertObjInStr(currentIndent, '+', el.keyName, el.value, replacer, depth),
+      equals: (el) => `${currentIndent}  ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
+      minus: (el) => `${currentIndent}- ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
+      plus: (el) => `${currentIndent}+ ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
     };
     const lines = node.map((el) => mapping[el.status](el));
     if (lines.length === 0) {

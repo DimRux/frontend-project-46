@@ -3,13 +3,15 @@ import stylish from './stylish.js';
 import json from './json.js';
 
 export default (tree, formatName = 'stylish') => {
-  if (formatName !== 'stylish' && formatName !== 'json' && formatName !== 'plain') {
-    throw new Error(`Unknown formatName! ${formatName}`);
-  }
-  const correctsFormats = {
+  const correctFormats = {
     plain: (node) => plain(node),
     json: (node) => json(node),
     stylish: (node) => stylish(node),
   };
-  return correctsFormats[formatName](tree);
+
+  if (!correctFormats[formatName]) {
+    throw new Error(`Unknown formatName! ${formatName}`);
+  }
+
+  return correctFormats[formatName](tree);
 };
