@@ -1,16 +1,30 @@
 import _ from 'lodash';
 
 const convertArrInStr = (value) => {
+  if (_.isObject(value) && !Array.isArray(value)) {
+    const lines = Object
+      .entries(value)
+      .map(([key, val]) => {
+        if (Array.isArray(val)) {
+          return `${key}: [${convertArrInStr(val)}]`;
+        }
+        return `${key}: {${convertArrInStr(val)}}`;
+      });
+    return [...lines].join('');
+  }
   const result = value.map((el) => {
     if (Array.isArray(el)) {
       return `[${convertArrInStr(el)}]`;
+    }
+    if (_.isObject(el)) {
+      return `{${convertArrInStr(el)}}`;
     }
     return `${el}`;
   });
   return result.join(', ');
 };
 
-const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1) => {
+const stringify = (currentValue, replacer = '  ', nowDepth = 1, linesDelimiter = '\n', spacesCount = 1) => {
   const iter = (value, depth) => {
     if (!_.isObject(value)) {
       return `${value}`;
@@ -28,7 +42,7 @@ const stringify = (currentValue, replacer = '  ', nowDepth = 1, spacesCount = 1)
       '{',
       ...lines,
       `${bracketIndent}}`,
-    ].join('\n');
+    ].join(linesDelimiter);
   };
   return iter(currentValue, 1);
 };

@@ -1,7 +1,7 @@
 {
     common: {
       + follow: false
-      - setting1: [Value 1, Value 2, Value3]
+      - setting1: [Value 1, {key1: {key2: [Value2, arr in obj]}}, Value3]
       + setting1: [value1, value2]
       - setting2: 200
       - setting3: true

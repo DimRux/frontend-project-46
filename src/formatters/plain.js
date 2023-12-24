@@ -17,12 +17,16 @@ const plain = (tree) => {
     const mapping = {
       changed: (el) => `Property '${fullPath(path, el.keyName)}' was updated. From ${getValue(el.value1)} to ${getValue(el.value2)}`,
       nested: (el) => iter(el.children, fullPath(path, el.keyName)),
-      equals: (el) => el.nothing,
       minus: (el) => `Property '${fullPath(path, el.keyName)}' was removed`,
       plus: (el) => `Property '${fullPath(path, el.keyName)}' was added with value: ${getValue(el.value)}`,
     };
-    const lines = node.map((el) => mapping[el.status](el));
-    return lines.filter((el) => el !== undefined).join('\n');
+    const lines = node.map((el) => {
+      if (Object.hasOwn(mapping, el.status)) {
+        return mapping[el.status](el);
+      }
+      return null;
+    });
+    return lines.filter((el) => el !== null).join('\n');
   };
   return iter(tree, null);
 };
