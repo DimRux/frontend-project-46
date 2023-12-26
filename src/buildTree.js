@@ -11,8 +11,7 @@ const buildTree = (data1, data2) => {
     if (!_.has(data1, el)) {
       return { keyName: el, value: data2[el], status: 'plus' };
     }
-    if (_.isPlainObject(data1[el]) && _.isPlainObject(data2[el])
-    && !Array.isArray(data1[el]) && !Array.isArray(data1[el])) {
+    if (_.isPlainObject(data1[el]) && _.isPlainObject(data2[el])) {
       return { keyName: el, children: buildTree(data1[el], data2[el]), status: 'nested' };
     }
     if (!_.isEqual(data1[el], data2[el])) {

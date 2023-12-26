@@ -15,10 +15,10 @@ const fullPath = (path, partOfPath) => (path ? `${path}.${partOfPath}` : `${part
 const plain = (tree) => {
   const iter = (node, path) => {
     const mapping = {
-      changed: (el) => `Property '${fullPath(path, el.keyName)}' was updated. From ${getValue(el.value1)} to ${getValue(el.value2)}`,
-      nested: (el) => iter(el.children, fullPath(path, el.keyName)),
-      minus: (el) => `Property '${fullPath(path, el.keyName)}' was removed`,
-      plus: (el) => `Property '${fullPath(path, el.keyName)}' was added with value: ${getValue(el.value)}`,
+      changed: (el) => `Property '${fullPath(path, el.keyName)}' was updated. From ${getValue(el.value1)} to ${getValue(el.value2)}\n`,
+      nested: (el) => `${iter(el.children, fullPath(path, el.keyName))}\n`,
+      minus: (el) => `Property '${fullPath(path, el.keyName)}' was removed\n`,
+      plus: (el) => `Property '${fullPath(path, el.keyName)}' was added with value: ${getValue(el.value)}\n`,
     };
     const lines = node.map((el) => {
       if (Object.hasOwn(mapping, el.status)) {
@@ -26,7 +26,7 @@ const plain = (tree) => {
       }
       return null;
     });
-    return lines.filter((el) => el !== null).join('\n');
+    return lines.join('').trim();
   };
   return iter(tree, null);
 };

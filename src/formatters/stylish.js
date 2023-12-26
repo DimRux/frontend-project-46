@@ -24,19 +24,19 @@ const convertArrInStr = (value) => {
   return result.join(', ');
 };
 
-const stringify = (value, replacer = '  ', nowDepth = 1, depth = 1, spacesCount = 1) => {
+const stringify = (value, depth = 1) => {
   if (!_.isObject(value)) {
     return `${value}`;
   }
   if (Array.isArray(value)) {
     return `[${convertArrInStr(value)}]`;
   }
-  const indentSize = nowDepth + depth * spacesCount;
-  const currentIndent = replacer.repeat(indentSize + 1);
-  const bracketIndent = replacer.repeat(indentSize - spacesCount);
+  const indentSize = depth + 1;
+  const currentIndent = '  '.repeat(indentSize + 1);
+  const bracketIndent = '  '.repeat(indentSize - 1);
   const lines = Object
     .entries(value)
-    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, replacer, nowDepth, depth + 2)}`);
+    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, depth + 2)}`);
   return [
     '{',
     ...lines,
@@ -44,25 +44,30 @@ const stringify = (value, replacer = '  ', nowDepth = 1, depth = 1, spacesCount 
   ].join('\n');
 };
 
-const stylish = (tree, depth = 1, replacer = '  ', spacesCount = 1) => {
-  const indentSize = depth * spacesCount;
-  const currentIndent = replacer.repeat(indentSize);
-  const bracketIndent = replacer.repeat(indentSize - spacesCount);
-  const mapping = {
-    changed: (el) => `${currentIndent}- ${el.keyName}: ${stringify(el.value1, replacer, depth + 1)}\n${currentIndent}+ ${el.keyName}: ${stringify(el.value2, replacer, depth + 1)}`,
-    nested: (el) => `${currentIndent}  ${el.keyName}: ${stylish(el.children, depth + 2)}`,
-    equals: (el) => `${currentIndent}  ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
-    minus: (el) => `${currentIndent}- ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
-    plus: (el) => `${currentIndent}+ ${el.keyName}: ${stringify(el.value, replacer, depth + 1)}`,
-  };
-  const lines = tree.map((el) => mapping[el.status](el));
-  if (lines.length === 0) {
+const getIndentation = (depth, sign, name, value) => {
+  const indentSize = depth;
+  const currentIndent = '  '.repeat(indentSize);
+  return `${currentIndent}${sign} ${name}: ${stringify(value, depth + 1)}`;
+};
+
+const stylish = (tree, depth = 1) => {
+  if (tree.length === 0) {
     return '{}';
   }
+  const indentSize = depth;
+  const currentIndent = '  '.repeat(indentSize);
+  const mapping = {
+    changed: (el) => `${getIndentation(depth, '-', el.keyName, el.value1)}\n${getIndentation(depth, '+', el.keyName, el.value2)}`,
+    nested: (el) => `${currentIndent}  ${el.keyName}: ${stylish(el.children, depth + 2)}`,
+    equals: (el) => getIndentation(depth, ' ', el.keyName, el.value),
+    minus: (el) => getIndentation(depth, '-', el.keyName, el.value),
+    plus: (el) => getIndentation(depth, '+', el.keyName, el.value),
+  };
+  const lines = tree.map((el) => mapping[el.status](el));
   return [
     '{',
     ...lines,
-    `${bracketIndent}}`,
+    `${'  '.repeat(depth - 1)}}`,
   ].join('\n');
 };
 
