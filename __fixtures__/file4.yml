@@ -11,7 +11,7 @@
         "key": "value",
         "ops": "vops",
         "doge": {
-          "wow": [[true, null, "", 5], ["so much", [sss]]]
+          "wow": ["so much", sss]
         }
       }
     }

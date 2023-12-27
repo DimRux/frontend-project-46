@@ -1,12 +1,11 @@
 {
     "common": {
-      "setting1": ["Value 1", { "key1": {"key2": ["Value2", "arr in obj"]}}, "Value3"],
       "setting2": 200,
       "setting3": true,
       "setting6": {
         "key": "value",
         "doge": {
-          "wow": ["str", "arr", [true, null, "", 5], ["so much", ["Oops"]]]
+          "wow": ["str", "arr", true, null, "", 5]
         }
       }
     }
