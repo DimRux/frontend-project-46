@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const stringify = (value, depth = 1) => {
   if (!_.isObject(value)) {
-    return `${value}`;
+    return String(value);
   }
   if (Array.isArray(value)) {
     return `[${value.toString()}]`;
@@ -42,7 +42,7 @@ const stylish = (tree, depth = 1) => {
   return [
     '{',
     ...lines,
-    `${'  '.repeat(depth - 1)}}`,
+    '}',
   ].join('\n');
 };
 
